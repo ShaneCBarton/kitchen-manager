@@ -15,8 +15,9 @@
     <div class="grid">
       <div class="card">
         <h2 id="form-title">Add New Recipe</h2>
-        <form id="recipe-form">
+        <form id="recipe-form" enctype="multipart/form-data">
           <input type="hidden" id="recipe-id">
+          <input type="hidden" id="current-image-url">
           
           <div class="form-group">
             <label for="name">Recipe Name *</label>
@@ -41,6 +42,12 @@
           <div class="form-group">
             <label for="instructions">Instructions</label>
             <textarea id="instructions"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="image">Recipe Image</label>
+            <input type="file" id="image" accept="image/*">
+            <div id="image-preview" style="margin-top: 10px;"></div>
           </div>
 
           <button type="submit">Save Recipe</button>
