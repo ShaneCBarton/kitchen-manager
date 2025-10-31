@@ -30,7 +30,7 @@ const recipeController = {
     async createRecipe(req, res) {
         try {
             const recipe = await recipeModel.create(req.body);
-            resizeTo.status(201).json(recipe);
+            res.status(201).json(recipe);
         } catch (err) {
             console.error('Error creating recipe:', err);
             res.status(500).json({ error: 'Failed to create recipe' });
