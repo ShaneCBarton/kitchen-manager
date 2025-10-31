@@ -74,7 +74,7 @@ function displayRecipes(recipes) {
   recipeList.innerHTML = recipes.map(recipe => `
     <li class="recipe-item">
       <div class="recipe-info">
-        <h3>${recipe.name}</h3>
+        <h3 onclick="viewRecipe(${recipe.id})">${recipe.name}</h3>
         <p>${recipe.category || 'No category'} • ${recipe.base_portion_size} portion${recipe.base_portion_size > 1 ? 's' : ''}</p>
       </div>
       <div class="recipe-actions">
@@ -139,6 +139,52 @@ function showMessage(text, type) {
   }, 3000);
 }
 
+async function viewRecipe(id) {
+  try {
+    const response = await fetch(`${API_BASE}/recipes/${id}`);
+    const recipe = await response.json();
+
+    const detailHTML = `
+      <h2>${recipe.name}</h2>
+      <div class="recipe-meta">
+        <strong>Category:</strong> ${recipe.category || 'N/A'} | 
+        <strong>Base Portions:</strong> ${recipe.base_portion_size}
+      </div>
+      
+      ${recipe.description ? `
+        <div class="recipe-section">
+          <h3>Description</h3>
+          <p>${recipe.description}</p>
+        </div>
+      ` : ''}
+      
+      ${recipe.instructions ? `
+        <div class="recipe-section">
+          <h3>Instructions</h3>
+          <p>${recipe.instructions}</p>
+        </div>
+      ` : ''}
+    `;
+
+    document.getElementById('recipe-detail').innerHTML = detailHTML;
+    document.getElementById('recipe-modal').classList.add('show');
+  } catch (error) {
+    showMessage('Error loading recipe details: ' + error.message, 'error');
+  }
+}
+
+function closeRecipeModal() {
+  document.getElementById('recipe-modal').classList.remove('show');
+}
+
+window.onclick = function(event) {
+  const modal = document.getElementById('recipe-modal');
+  if (event.target === modal) {
+    closeRecipeModal();
+  }
+}
+
+window.viewRecipe = viewRecipe;
+window.closeRecipeModal = closeRecipeModal;
 window.editRecipe = editRecipe;
 window.deleteRecipe = deleteRecipe;
-

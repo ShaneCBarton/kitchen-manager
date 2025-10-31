@@ -37,7 +37,7 @@ const recipeModel = {
         return result.rows[0];
     },
 
-    async update(is, recipeData) {
+    async update(id, recipeData) {
         const {
             name,
             category,
