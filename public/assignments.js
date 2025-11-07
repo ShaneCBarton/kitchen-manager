@@ -243,7 +243,7 @@ async function loadAggregation() {
   }
 }
 
-function displayAggregation(assignments, ingredients) {
+function displayAggregation(assignments) {
   if (assignments.length === 0) {
     aggregationResults.innerHTML = '<p style="color: #999;">No assignments for this cook on this date.</p>';
     return;
@@ -257,53 +257,64 @@ function displayAggregation(assignments, ingredients) {
     return `${grams.toFixed(0)}g`;
   };
 
-  // Build assignments list
-  const assignmentsList = assignments.map(a => `
-    <tr>
-      <td>${a.recipe_name}</td>
-      <td>${a.portions_needed}</td>
-      <td>${a.client_name || '-'}</td>
-    </tr>
-  `).join('');
+  // Group assignments by recipe_id
+  const groupedByRecipe = {};
+  
+  assignments.forEach(assignment => {
+    if (!groupedByRecipe[assignment.recipe_id]) {
+      groupedByRecipe[assignment.recipe_id] = {
+        recipe_name: assignment.recipe_name,
+        recipe_id: assignment.recipe_id,
+        has_aggregate_ingredient: assignment.has_aggregate_ingredient,
+        aggregate_ingredient_name: assignment.aggregate_ingredient_name,
+        aggregate_ingredient_amount: assignment.aggregate_ingredient_amount,
+        total_portions: 0,
+        clients: []
+      };
+    }
+    
+    groupedByRecipe[assignment.recipe_id].total_portions += assignment.portions_needed;
+    groupedByRecipe[assignment.recipe_id].clients.push({
+      name: assignment.client_name || 'No client specified',
+      portions: assignment.portions_needed
+    });
+  });
 
-  // Build ingredients list
-  const ingredientsList = ingredients.length > 0 
-    ? ingredients.map(ing => `
-        <tr>
-          <td><strong>${ing.ingredient_name}</strong></td>
-          <td><strong>${formatWeight(parseFloat(ing.total_grams))}</strong></td>
-        </tr>
-      `).join('')
-    : '<tr><td colspan="2" style="text-align: center; color: #999;">No ingredients to aggregate</td></tr>';
+  // Build the display
+  let html = '';
+  
+  Object.values(groupedByRecipe).forEach(group => {
+    // Calculate total ingredient amount
+    let ingredientDisplay = '';
+    if (group.has_aggregate_ingredient && group.aggregate_ingredient_name) {
+      const totalAmount = group.total_portions * group.aggregate_ingredient_amount;
+      ingredientDisplay = `
+        <div style="background: #e3f2fd; padding: 12px; border-radius: 4px; margin-top: 10px;">
+          <strong>📦 ${group.aggregate_ingredient_name}:</strong> ${formatWeight(totalAmount)}
+        </div>
+      `;
+    }
+    
+    // Build client list
+    const clientList = group.clients.map(client => 
+      `<li>${client.name}: ${client.portions} portion${client.portions > 1 ? 's' : ''}</li>`
+    ).join('');
+    
+    html += `
+      <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #007bff;">
+        <h3 style="margin: 0 0 10px 0; color: #333;">${group.recipe_name}</h3>
+        <p style="color: #666; margin-bottom: 10px;">
+          <strong>Total: ${group.total_portions} portions</strong>
+        </p>
+        <ul style="margin: 0 0 10px 20px; color: #666;">
+          ${clientList}
+        </ul>
+        ${ingredientDisplay}
+      </div>
+    `;
+  });
 
-  aggregationResults.innerHTML = `
-    <h3>Assignments</h3>
-    <table class="aggregation-table">
-      <thead>
-        <tr>
-          <th>Recipe</th>
-          <th>Portions</th>
-          <th>Client</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${assignmentsList}
-      </tbody>
-    </table>
-
-    <h3 style="margin-top: 30px;">Aggregated Ingredients</h3>
-    <table class="aggregation-table">
-      <thead>
-        <tr>
-          <th>Ingredient</th>
-          <th>Total Amount</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${ingredientsList}
-      </tbody>
-    </table>
-  `;
+  aggregationResults.innerHTML = html;
 }
 
 function resetForm() {

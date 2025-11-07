@@ -348,6 +348,20 @@ label:has(input[type="checkbox"]) {
   background: #e3f2fd;
 }
 
+#aggregation-results h3 {
+  font-size: 18px;
+}
+
+#aggregation-results ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+#aggregation-results li {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
 .assignment-detail {
   font-size: 12px;
   color: #666;
