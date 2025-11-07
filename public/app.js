@@ -6,6 +6,10 @@ const recipeList = document.getElementById('recipe-list');
 const messageDiv = document.getElementById('message');
 const formTitle = document.getElementById('form-title');
 const cancelBtn = document.getElementById('cancel-btn');
+const hasAggregateInput = document.getElementById('has-aggregate');
+const aggregateFieldsDiv = document.getElementById('aggregate-fields');
+const ingredientNameInput = document.getElementById('ingredient-name');
+const ingredientAmountInput = document.getElementById('ingredient-amount');
 
 // Form fields
 const recipeIdInput = document.getElementById('recipe-id');
@@ -35,6 +39,15 @@ imageInput.addEventListener('change', function(e) {
     reader.readAsDataURL(file);
   } else {
     imagePreview.innerHTML = '';
+  }
+});
+
+// Show/hide aggregate fields based on checkbox
+hasAggregateInput.addEventListener('change', function() {
+  aggregateFieldsDiv.style.display = this.checked ? 'block' : 'none';
+  if (!this.checked) {
+    ingredientNameInput.value = '';
+    ingredientAmountInput.value = '';
   }
 });
 
@@ -68,7 +81,10 @@ recipeForm.addEventListener('submit', async (e) => {
       base_portion_size: parseInt(portionSizeInput.value),
       description: descriptionInput.value,
       instructions: instructionsInput.value,
-      image_url: imageUrl
+      image_url: imageUrl,
+      has_aggregate_ingredient: hasAggregateInput.checked,
+      aggregate_ingredient_name: hasAggregateInput.checked ? ingredientNameInput.value : null,
+      aggregate_ingredient_amount: hasAggregateInput.checked ? parseFloat(ingredientAmountInput.value) : null
     };
 
     if (isEditing) {
@@ -146,6 +162,10 @@ async function editRecipe(id) {
     descriptionInput.value = recipe.description || '';
     instructionsInput.value = recipe.instructions || '';
     currentImageUrlInput.value = recipe.image_url || '';
+    hasAggregateInput.checked = recipe.has_aggregate_ingredient || false;
+    ingredientNameInput.value = recipe.aggregate_ingredient_name || '';
+    ingredientAmountInput.value = recipe.aggregate_ingredient_amount || '';
+    aggregateFieldsDiv.style.display = recipe.has_aggregate_ingredient ? 'block' : 'none';
 
     // Show current image if exists
     if (recipe.image_url) {
@@ -190,6 +210,7 @@ function resetForm() {
   recipeIdInput.value = '';
   currentImageUrlInput.value = '';
   imagePreview.innerHTML = '';
+  aggregateFieldsDiv.style.display = 'none';
   isEditing = false;
   formTitle.textContent = 'Add New Recipe';
   cancelBtn.style.display = 'none';
@@ -215,6 +236,7 @@ async function viewRecipe(id) {
       <div class="recipe-meta">
         <strong>Category:</strong> ${recipe.category || 'N/A'} | 
         <strong>Base Portions:</strong> ${recipe.base_portion_size}
+        ${recipe.has_aggregate_ingredient ? `<br><strong>Ingredient:</strong> ${recipe.aggregate_ingredient_name} (${recipe.aggregate_ingredient_amount}g per portion)` : ''}
       </div>
       
       ${recipe.image_url ? `

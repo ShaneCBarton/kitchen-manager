@@ -35,6 +35,24 @@
           </div>
 
           <div class="form-group">
+            <label>
+              <input type="checkbox" id="has-aggregate"> Track ingredient amounts for aggregation
+            </label>
+          </div>
+
+          <div id="aggregate-fields" style="display: none;">
+            <div class="form-group">
+              <label for="ingredient-name">Ingredient Name</label>
+              <input type="text" id="ingredient-name" placeholder="e.g., Beef, Organic Beef, Potatoes, Elbow Macaroni">
+            </div>
+
+            <div class="form-group">
+              <label for="ingredient-amount">Amount (grams per portion)</label>
+              <input type="number" id="ingredient-amount" step="0.01" placeholder="e.g., 450">
+            </div>
+          </div>
+
+          <div class="form-group">
             <label for="description">Description</label>
             <textarea id="description"></textarea>
           </div>
