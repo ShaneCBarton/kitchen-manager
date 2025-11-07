@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kitchen Manager - Manage Clients</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🍳 Kitchen Manager - Clients</h1>
+    
+    <nav class="tabs">
+      <a href="index.html">Recipes</a>
+      <a href="cooks.html">Cooks</a>
+      <a href="clients.html" class="active">Clients</a>
+      <a href="assignments.html">Assignments</a>
+    </nav>
+
+    <div id="message" class="message"></div>
+
+    <div class="grid">
+      <!-- Client Form -->
+      <div class="card">
+        <h2 id="form-title">Add New Client</h2>
+        <form id="client-form">
+          <input type="hidden" id="client-id">
+          
+          <div class="form-group">
+            <label for="name">Client Name *</label>
+            <input type="text" id="name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="dietary-notes">Dietary Notes</label>
+            <textarea id="dietary-notes" placeholder="Allergies, preferences, etc."></textarea>
+          </div>
+
+          <button type="submit">Save Client</button>
+          <button type="button" class="secondary" id="cancel-btn" style="display: none;">Cancel</button>
+        </form>
+      </div>
+
+      <!-- Client List -->
+      <div class="card">
+        <h2>All Clients</h2>
+        <ul id="client-list" class="recipe-list">
+          <li style="text-align: center; padding: 20px; color: #999;">
+            Loading clients...
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script src="clients.js"></script>
+</body>
+</html>

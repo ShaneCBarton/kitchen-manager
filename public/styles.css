@@ -263,3 +263,30 @@ label:has(input[type="checkbox"]) {
   align-items: center;
   cursor: pointer;
 }
+
+/* Navigation tabs */
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #ddd;
+}
+
+.tabs a {
+  padding: 12px 24px;
+  text-decoration: none;
+  color: #666;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.tabs a:hover {
+  color: #007bff;
+  background: #f8f9fa;
+}
+
+.tabs a.active {
+  color: #007bff;
+  border-bottom-color: #007bff;
+}

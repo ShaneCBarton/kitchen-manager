@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kitchen Manager - Manage Cooks</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🍳 Kitchen Manager - Cooks</h1>
+    
+    <nav class="tabs">
+      <a href="index.html">Recipes</a>
+      <a href="cooks.html" class="active">Cooks</a>
+      <a href="clients.html">Clients</a>
+      <a href="assignments.html">Assignments</a>
+    </nav>
+
+    <div id="message" class="message"></div>
+
+    <div class="grid">
+      <!-- Cook Form -->
+      <div class="card">
+        <h2 id="form-title">Add New Cook</h2>
+        <form id="cook-form">
+          <input type="hidden" id="cook-id">
+          
+          <div class="form-group">
+            <label for="name">Cook Name *</label>
+            <input type="text" id="name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email">
+          </div>
+
+          <button type="submit">Save Cook</button>
+          <button type="button" class="secondary" id="cancel-btn" style="display: none;">Cancel</button>
+        </form>
+      </div>
+
+      <!-- Cook List -->
+      <div class="card">
+        <h2>All Cooks</h2>
+        <ul id="cook-list" class="recipe-list">
+          <li style="text-align: center; padding: 20px; color: #999;">
+            Loading cooks...
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script src="cooks.js"></script>
+</body>
+</html>
