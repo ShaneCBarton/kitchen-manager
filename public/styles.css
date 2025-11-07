@@ -290,3 +290,66 @@ label:has(input[type="checkbox"]) {
   color: #007bff;
   border-bottom-color: #007bff;
 }
+
+/* Filter bar */
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.filter-bar input,
+.filter-bar select {
+  flex: 1;
+}
+
+/* Aggregation controls */
+.aggregation-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.aggregation-controls select,
+.aggregation-controls input {
+  flex: 1;
+}
+
+.aggregation-controls button {
+  flex: 0 0 auto;
+}
+
+/* Aggregation results */
+.aggregation-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.aggregation-table th,
+.aggregation-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.aggregation-table th {
+  background: #f8f9fa;
+  font-weight: 600;
+  color: #333;
+}
+
+.aggregation-table tr:hover {
+  background: #f8f9fa;
+}
+
+.aggregation-table .total-row {
+  font-weight: bold;
+  background: #e3f2fd;
+}
+
+.assignment-detail {
+  font-size: 12px;
+  color: #666;
+  margin-top: 3px;
+}
