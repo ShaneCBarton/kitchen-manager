@@ -71,7 +71,7 @@ npm install
 psql -U postgres
 
 # Create database
-CREATE DATABASE kitchen_manager;
+CREATE DATABASE kitchen_manager
 \q
 ```
 
